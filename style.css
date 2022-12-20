@@ -1,0 +1,230 @@
+html {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    display: inline-block;
+    text-align: center;
+}
+
+body {
+    margin: 0;
+    width: 100%;
+    background-color: #ffffff;
+}
+
+h1{
+    font-family: monospace;
+}
+
+.topnav {
+    justify-content: center;
+    display: flex;
+    overflow: hidden;
+    background-color: #98473E;
+    color: white;
+    font-size: 1rem;
+    padding: 5px;
+    width: 50%;
+}
+
+#authentication-bar{
+    display: flex;
+    background-color: #B49082;
+    color: white;
+    font-family: monospace;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    width: 50%;
+}
+
+#authentication-bar a{
+        text-decoration: none;
+        color: #98473E;
+}
+
+
+.readings table {
+        margin: 1rem;
+        border-collapse: collapse;
+        width: 300px;
+    
+}
+
+.readings td {
+    text-align: left;
+    padding: 8px;
+    width: 150px;
+}
+
+.readings tr:nth-child(even) {
+        background-color: #ffffff;
+    }
+
+    .readings tr:nth-child(odd) {
+        background-color: #d2d2d2;
+    }
+
+
+#user-details{
+    color: #a63e6e;
+}
+
+.content {
+    padding: 20px;
+}
+
+
+#container{
+width: 310px;
+  max-width: 800px;
+  height: 400px;
+  margin: 0 auto
+}
+
+
+.card {
+    background-color: #fff;
+    box-shadow: none;
+    padding: 5%;
+    border-bottom: 6px dashed #ddd;
+    align-items: center;
+    justify-content: center;
+}
+
+.cards {
+    max-width: 800px;
+    margin: 0 auto;
+    margin-bottom: 10px;
+    display: grid;
+    grid-gap: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 2fr));
+}
+
+.reading {
+    color: #193036;
+}
+
+.date-time{
+    font-size: 0.8rem;
+    color: #512735;
+}
+
+button {
+    background-color: #98473e;
+    color: white;
+    padding: 8px 4px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    width: 150px;
+}
+button:hover {
+   opacity: 0.8;
+}
+.deletebtn{
+    background-color: #c52c2c;
+}
+
+
+
+.form-elements-container{
+    padding: 16px;
+    width: 250px;
+    margin: 0 auto;
+}
+
+input[type=text], input[type=password] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+table {
+    margin: 1rem;
+    width: 100%;
+    text-align: center;
+    font-size: 0.8rem;
+}   
+tr, td {
+    padding: 0.25rem;
+}
+tr:nth-child(even) {
+    background-color: #f2f2f2
+}
+tr:hover {
+    background-color: #ddd;
+}
+th {
+    position: sticky;
+    top: 0;
+    background-color: #c9c9c9;
+    color: white;
+}
+
+.heart-beating {
+    align-items: center;
+    justify-content: center;
+  }
+
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: #a63e6e;
+    padding-top: 50px;
+}
+  
+/* Modal Content/Box */
+.modal-content {
+    background-color: #fefefe;
+    margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+    border: 1px solid #888;
+    width: 80%; /* Could be more or less, depending on screen size */
+}
+  
+/* Style the horizontal ruler */
+hr {
+    border: 1px solid #f1f1f1;
+    margin-bottom: 25px;
+}
+
+/* The Modal Close Button (x) */
+.close {
+    position: absolute;
+    right: 35px;
+    top: 15px;
+    font-size: 40px;
+    font-weight: bold;
+    color: #f1f1f1;
+}
+
+.close:hover,
+.close:focus {
+    color: #f44336;
+    cursor: pointer;
+}
+
+/* Clear floats */
+.clearfix::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+
+
+
+/* Change styles for cancel button and delete button on extra small screens */
+@media screen and (max-width: 300px) {
+    .cancelbtn, .deletebtn {
+        width: 100%;
+    }
+}

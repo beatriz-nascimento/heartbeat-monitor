@@ -5,7 +5,7 @@ On the hardware side, an ESP32 with wi-fi was used as a communication device bet
 The main reason to develop this project was to better understand and validate a model of how different network layers behave on Internet of Things (IOT) applications and 
 on common computer architetures. 
 
-Above I put some diagrams and real images of the project. If you are curious and need more information about it, feel free to contact me. 
+Above I put some diagrams and images of the project. If you are curious and need more information about it, feel free to contact me. 
 
 ![1](https://user-images.githubusercontent.com/73175968/208553523-442f6b73-013c-403c-8f65-5f6390b60efe.png)
 ![2](https://user-images.githubusercontent.com/73175968/208553815-06a03be5-f6d1-4213-96d3-def173d13358.png)

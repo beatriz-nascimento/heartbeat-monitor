@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Heart Log</title>
+
+  <!-- include Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-app.js"></script>
+
+  <!-- include only the Firebase features as you need -->
+  <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-database.js"></script>
+
+  <script>
+    // Import the functions you need from the SDKs you need
+    const firebaseConfig = {
+      apiKey: "API_KEY",
+      authDomain: "AUTH_DOMAIN",
+      databaseURL: "DATABASE_URL",
+      projectId: "heart-monitor-tcc",
+      storageBucket: "heart-monitor-tcc.appspot.com",
+      messagingSenderId: "735637422249",
+      appId: "1:735637422249:web:08591761d52ad8c58c69b8",
+      measurementId: "G-WZ6ED2R21T"
+    };
+
+    // Initialize firebase
+    firebase.initializeApp(firebaseConfig);
+
+
+    // Make auth and database references
+
+    const auth = firebase.auth();
+    const db = firebase.database();
+    var provider = new firebase.auth.GoogleAuthProvider();
+
+  </script>
+
+  <script src="scripts/auth.js">
+
+  </script> <!-- then you import the script -->
+
+
+  <!-- include highchartsjs to build the charts-->
+  <script src="https://code.highcharts.com/highcharts.js"></script>
+  <!--include icons from fontawesome-->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+    integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+  <!-- include Gauges Javascript library-->
+  <script src="https://cdn.rawgit.com/Mikhus/canvas-gauges/gh-pages/download/2.1.7/all/gauge.min.js"></script>
+  <!--reference for favicon-->
+  <link rel="icon" type="image/ico" href="favicon.ico">
+  <!--reference a stylesheet-->
+  <link rel="stylesheet" type="text/css" href="style.css">
+
+</head>
+
+<body>
+
+  <!--TOP BAR-->
+  <div style="display: flex;">
+    <div class="topnav">
+      <h1>Monitor cardíaco <i class="fas fa-solid fa-heartbeat"> </i> </h1>
+    </div>
+
+    <!--AUTHENTICATION BAR (USER DETAILS/LOGOUT BUTTON)-->
+    <div id="authentication-bar" style="display: none;">
+      <p><span id="authentication-status">Usuário logado</span>
+        <span id="user-details">USEREMAIL</span>
+        <a href="/" id="logout-link">(logout)</a>
+      </p>
+    </div>
+  </div>
+
+  <!--LOGIN FORM-->
+  <form id="login-form" style="display: none;">
+    <div class="form-elements-container">
+      <label for="input-email"><b><i class="fas fa-envelope"></i> Email</b></label>
+      <input type="text" placeholder="Digite seu email" id="input-email" required>
+
+      <label for="input-password"><b> <i class="fas fa-key"></i> Senha</b></label>
+      <input type="password" placeholder="Digite sua senha" id="input-password" required>
+
+      <button type="submit" id="login-button">Login</button>
+      <p id="error-message" style="color:red;"></p>  
+    </div>
+  </form>
+
+
+  <!--LOGIN  WITH GOOGLE -->
+  <form id="login-google-form" style="display: none;">
+    <div class="form-elements-container">
+
+      <button type="submit" id="login-button"><i class="fab fa-google"></i>Login com google</button>
+      <p id="error-message" style="color:red;"></p>
+    </div>
+  </form>
+
+  <!--CONTENT (SENSOR READINGS)-->
+  <div class="content-sign-in" id="content-sign-in" style="display: none;">
+    <!--LAST UPDATE-->
+    <p><span class="date-time">Última atualização <span id="lastUpdate"></span></span></p>
+    <div id="cards-div">
+      <div class="cards">
+        <div class="card" style="align-items: center; display: flex;">
+          <div id="stop-reading-button">
+            <svg width="110" height="110" viewBox="0 0 200 200" id="heart-beating" style="display:none">
+              <g transform="translate(100 100)">
+                <path transform="translate(-50 -50)" fill="#c52c2c"
+                  d="M92.71,7.27L92.71,7.27c-9.71-9.69-25.46-9.69-35.18,0L50,14.79l-7.54-7.52C32.75-2.42,17-2.42,7.29,7.27v0 c-9.71,9.69-9.71,25.41,0,35.1L50,85l42.71-42.63C102.43,32.68,102.43,16.96,92.71,7.27z">
+                </path>
+                <animateTransform attributeName="transform" type="scale" values="1; 1.5; 1.25; 1.5; 1.5; 1;" dur="1s"
+                  repeatCount="indefinite" additive="sum">
+                </animateTransform>
+              </g>
+            </svg>
+            <button class="deletebtn"><i class="fas fa-stop"></i> Pausar leitura</button>
+
+          </div>
+          <div id="start-reading-button">
+            <svg width="110" height="110" viewBox="0 0 200 200" id="heart-not-beating">
+              <g transform="translate(100 100)">
+                <path transform="translate(-50 -50)" fill="gray"
+                  d="M92.71,7.27L92.71,7.27c-9.71-9.69-25.46-9.69-35.18,0L50,14.79l-7.54-7.52C32.75-2.42,17-2.42,7.29,7.27v0 c-9.71,9.69-9.71,25.41,0,35.1L50,85l42.71-42.63C102.43,32.68,102.43,16.96,92.71,7.27z">
+                </path>
+              </g>
+            </svg>
+            <button> <i class="fas fa-play"></i> Iniciar leitura</button>
+
+          </div>
+
+
+          <table id="readings" class="readings">
+            <tr>
+              <td>Batimento</td>
+              <td>
+                <p><span class="reading"><span id="temp"></span></p>
+              </td>
+            </tr>
+            <tr>
+              <td>Batimentos por minuto</td>
+              <td><span class="reading"><span id="beats"></span></td>
+            </tr>
+            <tr>
+              <td> <span> RMSSD </span></td>
+
+              <td><span class="reading"><span id="hrv"></span></td>
+            </tr>
+
+          </table>
+
+        </div>
+      </div>
+    </div>
+
+    <!--CHARTS-->
+    <div id="charts-div">
+      <!--SET NUMBER OF READINGS INPUT FIELD-->
+      <!--TEMPERATURE-CHART-->
+      <div class="cards">
+        <div class="card">
+          <div id="chart-temperature" class="chart-container"></div>
+        </div>
+      </div>
+    </div>
+
+    <!--BUTTONS TO HANDLE DATA-->
+    <p>
+      <!--View data button-->
+      <button id="view-data-button">Mostrar dados</button>
+      <!--Hide data button-->
+      <button id="hide-data-button" style="display:none;">Esconder dados</button>
+      <!--Delete data button-->
+      <button id="delete-button" class="deletebtn">Deletar dados</button>
+    </p>
+    <!--Modal to delete data-->
+    <div id="delete-modal" class="modal" sytle="display:none">
+      <span onclick="document.getElementById('delete-modal').style.display='none'" class="close"
+        title="Close Modal">×</span>
+      <form id="delete-data-form" class="modal-content" action="/">
+        <div class="container">
+          <h1>Delete Data</h1>
+          <p>Are you sure you want to delete all data from database?</p>
+          <div class="clearfix">
+            <button type="button" onclick="document.getElementById('delete-modal').style.display='none'"
+              class="cancelbtn">Cancel</button>
+            <button type="submit" onclick="document.getElementById('delete-modal').style.display='none'"
+              class="deletebtn">Delete</button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <!--TABLE WITH ALL DATA-->
+    <div class="cards">
+      <div class="card" id="table-container" style="display:none;">
+        <table id="readings-table">
+          <tr id="theader">
+            <th>Timestamp</th>
+            <th>Heartbeat</th>
+          </tr>
+          <tbody id="tbody">
+          </tbody>
+        </table>
+        <p><button id="load-data" style="display:none;">Mais resultados...</button></p>
+      </div>
+    </div>
+
+  </div>
+
+  <!--INCLUDE JS FILES-->
+  <script src="scripts/auth.js"></script>
+  <script src="scripts/charts-definition.js"></script>
+  <script src="scripts/index.js"></script>
+
+</body>
+
+</html>
